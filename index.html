@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f5f4f0">
+  <meta name="description" content="A local-first deterministic password generator. Derive passwords in your browser without a vault or account.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'; upgrade-insecure-requests">
+  <title>Keyform — Passwords, derived</title>
+  <link rel="icon" href="/assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+<div class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Keyform home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 12.5 20 6l12 6.5v15L20 34 8 27.5zM14 15.5 20 12l6 3.5v9L20 28l-6-3.5zM8 12.5l12 7 12-7M20 19.5V34"/></svg></span><span class="brand-name">keyform<span class="brand-period">.</span></span></a>
+    <div class="topbar-right"><span class="local-status"><span class="status-dot"></span>Local by design</span><button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode" aria-pressed="false"><svg class="theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.2A8.5 8.5 0 0 1 8.8 3.8 8.8 8.8 0 1 0 20.2 15.2Z"/></svg><svg class="theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.2M12 19.8V22M4.93 4.93l1.56 1.56m11.02 11.02 1.56 1.56M2 12h2.2m15.6 0H22M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"/></svg></button><button class="icon-button" id="securityInfoButton" type="button" aria-label="Open security information" title="Security information"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9a2.5 2.5 0 1 1 4.3 1.8c-1.1 1-1.9 1.4-1.9 3M12 17.4h.01"/></svg></button></div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="eyebrow-line"></span>DETERMINISTIC PASSWORD GENERATOR</div>
+      <h1 id="page-title">Passwords, <em>derived.</em></h1>
+      <p class="hero-copy">One master key. A unique identifier for each service. Your password, recreated on demand — without a vault.</p>
+      <div class="trust-points"><span><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg>No account</span><span><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg>No cloud sync</span><span><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg>No password vault</span></div>
+    </section>
+
+    <section class="generator-layout" aria-label="Password generator">
+      <div class="generator-card">
+        <div class="card-topline"><div class="step-label"><span class="step-number">01</span><span>MASTER KEY</span></div><span class="required-label">Required</span></div>
+        <label class="field-label" for="masterPassword">Your master password</label>
+        <div class="input-wrap"><input id="masterPassword" name="masterPassword" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore="true" data-bwignore="true" maxlength="1024" placeholder="Enter a strong, unique master key" aria-describedby="masterHint masterCriteria" required><button class="field-action" id="toggleMaster" type="button" aria-label="Show master password" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M2.5 12s3.2-6 9.5-6 9.5 6 9.5 6-3.2 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div>
+        <div class="input-meta" id="masterHint">Do not reuse a login password or let a password manager save this master key.</div>
+        <div class="criteria-row" id="masterCriteria" aria-live="polite"><span class="criteria-item" data-criterion="length"><span class="criteria-check">•</span>10+ characters</span><span class="criteria-item" data-criterion="upper"><span class="criteria-check">•</span>Uppercase</span><span class="criteria-item" data-criterion="lower"><span class="criteria-check">•</span>Lowercase</span><span class="criteria-item" data-criterion="number"><span class="criteria-check">•</span>Number</span><span class="criteria-item" data-criterion="symbol"><span class="criteria-check">•</span>Symbol</span></div>
+        <div class="section-divider"></div>
+        <div class="card-topline"><div class="step-label"><span class="step-number">02</span><span>SERVICE IDENTIFIER</span></div></div>
+        <label class="field-label" for="serviceIdentifier">Where will you use this password?</label>
+        <div class="input-wrap service-wrap"><span class="service-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 3 12 3Z"/></svg></span><input id="serviceIdentifier" name="serviceIdentifier" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="200" placeholder="e.g. github.com" aria-describedby="serviceHint" required><button class="field-action clear-service" id="clearService" type="button" aria-label="Clear service identifier" title="Clear identifier"><svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
+        <div class="input-meta" id="serviceHint">Case and punctuation are ignored. Only letters, numbers, and hyphens affect the result; for example, github.com becomes githubcom.</div>
+        <div class="form-actions"><button class="primary-button" id="generateButton" type="button"><span class="button-label">Generate password</span><svg class="button-arrow" viewBox="0 0 24 24"><path d="M4.5 12h14M12.5 6l6 6-6 6"/></svg></button><button class="settings-button" id="settingsButton" type="button"><svg viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/><path d="m19.3 13.7 1.1.9-1.6 2.8-1.4-.5a7.8 7.8 0 0 1-1.6.9l-.3 1.5h-3.2l-.3-1.5a7.8 7.8 0 0 1-1.6-.9l-1.4.5-1.6-2.8 1.1-.9a7.5 7.5 0 0 1 0-1.8l-1.1-.9 1.6-2.8 1.4.5a7.8 7.8 0 0 1 1.6-.9l.3-1.5h3.2l.3 1.5a7.8 7.8 0 0 1 1.6.9l1.4-.5 1.6 2.8-1.1.9a7.5 7.5 0 0 1 0 1.8Z" transform="translate(-1 -1) scale(1.08)"/></svg><span>Settings</span></button></div>
+        <p class="form-error" id="formError" role="alert" hidden></p><div class="derivation-status" id="derivationStatus" aria-live="polite" hidden><span class="loader-dot"></span><span id="statusText">Deriving your password locally…</span></div>
+      </div>
+
+      <aside class="result-column" aria-label="Generated password and configuration">
+        <div class="result-card" aria-live="polite">
+          <div class="result-header"><div><div class="result-kicker">YOUR DERIVED PASSWORD</div><div class="result-title" id="resultTitle">Ready when you are</div></div><span class="result-state" id="resultState"><span class="state-dot"></span>Waiting</span></div>
+          <div class="password-output" id="passwordOutput" data-empty="true"><div class="empty-output" id="emptyOutput"><span class="output-placeholder">••••••••••••••••</span><span class="empty-label">Your password will appear here</span></div><code id="generatedPassword" hidden></code><button class="output-toggle" id="toggleOutput" type="button" aria-label="Hide generated password" aria-pressed="true" hidden><svg viewBox="0 0 24 24"><path d="M2.5 12s3.2-6 9.5-6 9.5 6 9.5 6-3.2 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.5"/></svg></button></div>
+          <div class="result-meta"><span id="lengthMeta">— characters</span><span class="meta-separator">·</span><span id="algorithmMeta">PBKDF2 · HMAC-SHA256</span></div>
+          <div class="result-actions"><button class="copy-button" id="copyButton" type="button" disabled><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg><span>Copy password</span></button><button class="regenerate-button" id="regenerateButton" type="button" disabled aria-label="Generate again" title="Generate again"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 9A6.5 6.5 0 0 1 17 6.5L20 12M4 12l3 5.5A6.5 6.5 0 0 0 17.9 15"/></svg></button></div>
+          <div class="clipboard-note"><svg viewBox="0 0 20 20"><path d="M10 2.5 17 5v4.8c0 3.7-2.8 6.2-7 7.7-4.2-1.5-7-4-7-7.7V5z"/><path d="m7.2 9.9 1.8 1.8 3.8-4"/></svg><span>Your output is created locally and never saved by this app.</span></div>
+        </div>
+        <div class="security-card"><div class="security-card-icon"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5.5c0 4.2-3.2 7.1-8 9.5-4.8-2.4-8-5.3-8-9.5V6z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></div><div class="security-card-content"><h2>Designed to leave no trail</h2><p>No account, backend, analytics, or local storage. Your master key and result exist only in this page’s working memory.</p><button class="text-link" type="button" id="learnSecurityButton">Read the security model <svg viewBox="0 0 20 20"><path d="M3.5 10h12M10 4.5l5.5 5.5-5.5 5.5"/></svg></button></div></div>
+      </aside>
+    </section>
+
+    <section class="bottom-info"><div class="bottom-info-heading"><span class="mini-overline">THE IDEA</span><h2>Remember one. Rebuild the rest.</h2></div><div class="bottom-info-copy"><p>A master key is combined with a service identifier using a deliberately slow key derivation step and a keyed cryptographic function. You can recreate the result later using the same tool version and settings.</p><p class="small-warning">A weak master key can still be guessed offline if an attacker knows one of your generated passwords. Use a long, unique master key and keep it private.</p></div></section>
+  </main>
+  <footer class="footer"><div class="footer-brand">keyform<span class="brand-period">.</span></div><div class="footer-copy">Compatible deterministic derivation <span>·</span> No vault. No sync.</div><button class="footer-clear" id="clearAllButton" type="button">Clear session</button></footer>
+</div>
+
+<dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsTitle"><form method="dialog" class="dialog-form" id="settingsForm"><div class="dialog-header"><div><div class="dialog-kicker">CONFIGURATION</div><h2 id="settingsTitle">Password settings</h2></div><button class="icon-button close-dialog" value="cancel" aria-label="Close settings"><svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div><p class="dialog-intro">Tune the output to fit the service’s password rules. Settings are not saved when you leave this page.</p>
+  <div class="setting-group"><div class="setting-heading"><label for="lengthInput">Total password length</label><output id="lengthValue" for="lengthInput">24</output></div><input id="lengthInput" class="length-range" type="range" min="10" max="40" value="24" step="1"><div class="range-ends"><span>10 characters</span><span>40 characters</span></div></div>
+  <div class="setting-group"><label for="prefixInput">Prefix <span class="optional-label">OPTIONAL</span></label><input class="setting-input" id="prefixInput" type="text" maxlength="30" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. Ac7!" aria-describedby="prefixHelp"><div class="setting-help" id="prefixHelp">Fixed text at the start. Keep it short; fixed characters add no entropy.</div></div>
+  <div class="setting-group"><label for="suffixInput">Suffix <span class="optional-label">OPTIONAL</span></label><input class="setting-input" id="suffixInput" type="text" maxlength="30" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="e.g. #42" aria-describedby="suffixHelp"><div class="setting-help" id="suffixHelp">Fixed text at the end. Fixed characters do not add entropy.</div></div>
+  <div class="settings-notice"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5"/><path d="M10 8.8v4M10 6.2h.01"/></svg><span>At least 1 character is derived cryptographically. Prefix and suffix count toward the total length but are fixed text and add no entropy.</span></div>
+  <div class="dialog-actions"><button class="dialog-secondary" id="resetSettingsButton" type="button">Reset defaults</button><button class="dialog-primary" id="saveSettingsButton" type="button">Apply settings</button></div><p class="dialog-error" id="settingsError" role="alert" hidden></p>
+</form></dialog>
+
+<dialog class="security-dialog" id="securityDialog" aria-labelledby="securityTitle"><div class="dialog-form security-dialog-form"><div class="dialog-header"><div><div class="dialog-kicker">SECURITY MODEL</div><h2 id="securityTitle">Local by design.<br>Not magic.</h2></div><button class="icon-button" id="closeSecurityButton" type="button" aria-label="Close security information"><svg viewBox="0 0 24 24"><path d="m7 7 10 10M17 7 7 17"/></svg></button></div>
+  <div class="security-detail"><span class="detail-number">01</span><div><h3>Nothing is sent to a server</h3><p>The app uses the browser’s Web Crypto API. It does not use fetch/XHR, third-party scripts, analytics, cookies, or storage APIs.</p></div></div>
+  <div class="security-detail"><span class="detail-number">02</span><div><h3>Slow derivation, keyed output</h3><p>PBKDF2-HMAC-SHA256 with 500,000 iterations derives a service-specific, non-exportable HMAC key using a fixed application salt and the SHA-256 hash of the canonical identifier. The HMAC signature is Base64URL-encoded and truncated to the requested length.</p></div></div>
+  <div class="security-detail"><span class="detail-number">03</span><div><h3>Identifiers matter</h3><p>Identifiers are lowercased, trimmed, and stripped of everything except ASCII letters, digits, and hyphens. For example, github.com becomes githubcom. Use the same canonical identifier and settings each time.</p></div></div>
+  <div class="security-detail"><span class="detail-number">04</span><div><h3>Know the limits</h3><p>A compromised device, browser extension, malicious browser update, or changed hosted code can expose secrets. A weak master key can be guessed offline. Copying also places the result on your system clipboard.</p></div></div>
+  <div class="compatibility-warning"><strong>Compatibility warning</strong><p>Keyform uses a compatible derivation profile: 500,000 PBKDF2 iterations, a service-derived salt, an HMAC-SHA256 signature, Base64URL encoding, and truncation. To recreate a password, use the same master key, canonical service identifier, total length, prefix, and suffix.</p></div><button class="dialog-primary security-close-action" id="securityGotItButton" type="button">I understand</button>
+</div></dialog>
+<div class="custom-scrollbar" id="customScrollbar" aria-hidden="true" hidden><div class="custom-scrollbar-track" id="customScrollbarTrack"><div class="custom-scrollbar-thumb" id="customScrollbarThumb"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span class="toast-icon"><svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg></span><span id="toastMessage">Copied to clipboard</span></div>
+</body>
+</html>
